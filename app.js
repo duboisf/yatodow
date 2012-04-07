@@ -13,8 +13,6 @@ mongoose.connect('mongodb://localhost/todocli');
 
 mongoose.model('Todo', require('./models/todo'));
 
-var db = mongoose;
-
 var app = module.exports = express.createServer();
 
 // Configuration
@@ -43,14 +41,16 @@ app.configure('production', function(){
 app.get('/', todocli.home);
 
 app.get('/todo', function (req, res) {
-    var Todo = db.model('Todo');
+    var Todo = mongoose.model('Todo');
     res.send(Todo.getLatestTodos());
 });
 
 app.post('/todo', function (req, res) {
-    var Todo = db.model('Todo');
+    var Todo = mongoose.model('Todo');
     console.log(req.param('post'));
     var todo = new Todo(req.param('post'));
+    todo.save();
+    res.send({success: true});
 });
 
 app.get('/test/json', todocli.test_json);
