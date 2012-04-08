@@ -1,12 +1,15 @@
+var mongoose = require('mongoose'),
+    todo = require('./todo');
 
-/*
- * GET home page.
- */
+module.exports = function (app) {
 
-exports.index = function(req, res){
-  res.render('index', { title: 'Express' })
-};
+    app.get('/', function (req, res) {
+        var todos = mongoose.model('Todo').find();
+        res.render('home', {
+            title: 'I did it',
+            todos: todos
+        });
+    });
 
-exports.test = function (req, res) {
-    res.send('yo');
+    todo(app);
 };

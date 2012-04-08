@@ -4,7 +4,7 @@
  */
 
 var express = require('express')
-  , todocli = require('./routes/todocli')
+  , routes = require('./routes')
   , mongoose = require('mongoose');
 
 require('express-mongoose');
@@ -36,24 +36,9 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
-// Routes
+// Init routes
 
-app.get('/', todocli.home);
-
-app.get('/todo', function (req, res) {
-    var Todo = mongoose.model('Todo');
-    res.send(Todo.getLatestTodos());
-});
-
-app.post('/todo', function (req, res) {
-    var Todo = mongoose.model('Todo');
-    console.log(req.param('post'));
-    var todo = new Todo(req.param('post'));
-    todo.save();
-    res.send({success: true});
-});
-
-app.get('/test/json', todocli.test_json);
+routes(app);
 
 app.listen(3000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
