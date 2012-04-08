@@ -4,12 +4,13 @@ var mongoose = require('mongoose'),
 module.exports = function (app) {
 
     app.get('/', function (req, res) {
-        var todos = mongoose.model('Todo').find();
+        var todos = mongoose.model('Todo').getLatestTodos();
         res.render('home', {
             title: 'I did it',
             todos: todos
         });
     });
 
-    todo(app);
+    app.get('/todo', todo.todo_get);
+    app.post('/todo', todo.todo_post);
 };
