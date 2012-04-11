@@ -4,7 +4,7 @@ const Schema = require('mongoose').Schema
 var Todo = module.exports = new Schema({
     title: { type: String, required: true },
     project: String,
-    body: String,
+    notes: String,
     done: { type: Boolean, default: false },
     date_created: { type: Date, default: Date.now },
     date_modified: { type: Date }

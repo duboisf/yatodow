@@ -6,7 +6,7 @@ module.exports = function (app) {
     app.get('/', function (req, res) {
         var todos = mongoose.model('Todo').getLatestTodos();
         res.render('home', {
-            title: 'I did it',
+            title: 'Todo',
             todos: todos
         });
     });

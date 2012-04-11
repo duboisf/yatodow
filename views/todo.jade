@@ -1,4 +1,6 @@
 - var doneStatus = todo.done ? 'done' : 'not-done'
-div(class='todo ' + doneStatus)
-  h2.title= todo.title
-  p.body= todo.body
+div(id=todo._id.toHexString(), class='todo ' + doneStatus)
+  .title= todo.title
+  .notes= todo.notes
+  div.create_date
+    div= todo.date_created.toDateString()

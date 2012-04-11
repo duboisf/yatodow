@@ -1,0 +1,42 @@
+border-radius()
+  -webkit-border-radius: arguments
+  -moz-border-radius: arguments
+  border-radius: arguments
+
+body
+  padding: 10
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
+
+a
+  color: #00B7FF
+
+.todo {
+  position: relative;
+  border-radius(7px)
+  margin: 4px 0px
+  border: solid black 2px
+  div {
+    padding: 2px
+  }
+  .title {
+    font-size: x-large  
+  }
+  .create_date {
+    position: absolute
+    right: 0px
+    top: 0px  
+    border-left: solid black 2px
+    border-bottom: solid black 2px
+  }
+}
+
+.todo.done
+  background: rgba(0, 255, 0, 0.3)
+  text-decoration: line-through
+
+.todo.not-done
+  background: rgba(255, 0, 0, 0.3)
+
+.todo.selected
+  background: rgba(0, 255, 255, 0.3)
+
