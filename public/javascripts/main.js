@@ -7,6 +7,7 @@ Todo.main = function () {
     }).remove();
     $('.todo').first().addClass('selected');
     Todo.setupBindings();
+    $('label').inFieldLabels();
 };
 
 Todo.moveSelection = function (dir) {
@@ -20,15 +21,22 @@ Todo.moveSelection = function (dir) {
 };
 
 Todo.setupBindings = function () {
-    $(document).bind('keydown', 'c', function () {
-        console.log('c pressed');
-    });
     $(document).bind('keydown', 'j', function () {
         Todo.moveSelection('next');
     })
     $(document).bind('keydown', 'k', function () {
         Todo.moveSelection('prev');
     })
+    $('.create-todo > form').submit(function () {
+        $('.create-todo').addClass('hidden');
+        $('input.text-input').val('').blur();
+        return false;
+    });
+    $(document).bind('keydown', 'c', function (evt) {
+        evt.preventDefault();
+        $('.create-todo').removeClass('hidden');
+        $('#title').focus();
+    });
 };
 
 $(document).ready(function () {

@@ -1,9 +1,14 @@
 .create-todo.hidden
-  form(name='todo')
-    label(for='title')
-      | Title
-    input#name.text-input(type='text', name='title')
+  form(action='todo', method='POST', name='todo')
+    p
+      label(for='title')
+        | Todo title
+      br
+      input#title.text-input(type='text', name='title')
+    p
+      label(for='notes')
+        | Usefull notes
+      br
+      input#notes.text-input(type='text', name='notes')
     br
-    label(for='notes')
-      | Notes
-    input#notes.text-input(type='text', name='notes')
+    input(type='submit')

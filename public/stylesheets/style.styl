@@ -44,6 +44,20 @@ a
   display: none
 
 .create-todo {
-  .text-input {
+  p {
+    position: relative
+    height: 21px
+  }
+  label, input.text-input {
+    position: absolute
+  }
+  label {
+    z-index: 100
+    top: 5px
+    left: 8px
+  }
+  input.text-input {
+    top: 0px
+    left: 0px
   }
 }
