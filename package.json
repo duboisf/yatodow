@@ -8,5 +8,6 @@
     , "stylus": ">= 0.24.0"
     , "express-mongoose": ">= 0.0.5"
     , "mongoose": ">= 2.5.13"
+    , "coffeescript": ">= 1.3.1"
   }
 }
