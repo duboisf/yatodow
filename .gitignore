@@ -2,3 +2,4 @@ node_modules
 *.swp
 *.css
 public/javascripts/*.js
+routes/*.js

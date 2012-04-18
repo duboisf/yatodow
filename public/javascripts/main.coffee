@@ -28,9 +28,13 @@ setupBindings = ->
     $('#title').focus()
 
 setupEvents = ->
-  $('create-todo > form').submit ->
+  $('.create-todo > form').submit ->
     $('.create-todo').addClass 'hidden'
     $('input.text-input').val('').blur()
-    window.location.reload()
+    window.location = '/'
+    false
+  $('.cancel-btn').click ->
+    $('.create-todo').addClass 'hidden'
+    $('input.text-input').val('').blur()
 
 $(document).ready -> main()

@@ -4,7 +4,6 @@ border-radius()
   border-radius: arguments
 
 body
-  padding: 10
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
 
 a
@@ -45,19 +44,22 @@ a
 
 .create-todo {
   p {
+    margin: 0px
     position: relative
-    height: 21px
   }
-  label, input.text-input {
+  label {
     position: absolute
   }
   label {
     z-index: 100
-    top: 5px
-    left: 8px
+    top: 6px
+    left: 7px
   }
-  input.text-input {
-    top: 0px
-    left: 0px
+  .cancel-btn-prefix {
+    margin-left: 5px
+  }
+  .cancel-btn {
+    color: red
+    cursor: pointer
   }
 }

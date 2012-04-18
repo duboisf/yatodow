@@ -1,14 +1,15 @@
 .create-todo.hidden
   form(action='todo', method='POST', name='todo')
     p
+      input#title.text-input(type='text', name='title')
       label(for='title')
         | Todo title
-      br
-      input#title.text-input(type='text', name='title')
     p
+      input#notes.text-input(type='text', name='notes')
       label(for='notes')
         | Usefull notes
-      br
-      input#notes.text-input(type='text', name='notes')
-    br
-    input(type='submit')
+    input(type='submit', value="Create")
+    span.cancel-btn-prefix
+      | or
+    em.cancel-btn
+      | cancel
