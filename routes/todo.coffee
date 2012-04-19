@@ -6,6 +6,7 @@ exports.get = (req, res) ->
 
 exports.post = (req, res) ->
   Todo = mongoose.model('Todo')
+  console.log req.body
   todo = new Todo(req.body)
   todo.save()
   res.send success: true

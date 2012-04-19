@@ -1,4 +1,5 @@
 main = ->
+  console.log 'ready!'
   $('.todo > div')
     .filter ->
       $.trim($(@).text()) is ''
@@ -29,10 +30,16 @@ setupBindings = ->
 
 setupEvents = ->
   $('.create-todo > form').submit ->
+    formData = $(@).serializeArray()
+    url = $(@).attr 'action'
+    data = {}
+    $.each formData, (i, item) ->
+      data[item['name']] = item['value']
+    $.post url, data, ->
+      window.location = '/'
     $('.create-todo').addClass 'hidden'
     $('input.text-input').val('').blur()
-    window.location = '/'
-    false
+    return false
   $('.cancel-btn').click ->
     $('.create-todo').addClass 'hidden'
     $('input.text-input').val('').blur()
