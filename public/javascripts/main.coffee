@@ -1,10 +1,9 @@
 main = ->
-  console.log 'ready!'
   $('.todo > div')
     .filter ->
       $.trim($(@).text()) is ''
     .remove()
-  $('.todo').first().addClass 'selected'
+  $('.todos > .todo').first().addClass 'selected'
   setupBindings()
   setupEvents()
   $('label').inFieldLabels();
@@ -25,21 +24,26 @@ setupBindings = ->
     moveSelection 'prev'
   $(document).bind 'keydown', 'c', (evt) ->
     evt.preventDefault()
+    $('.create-todo').detach().insertBefore '.selected'
     $('.create-todo').removeClass 'hidden'
     $('#title').focus()
 
 setupEvents = ->
   $('.create-todo > form').submit ->
-    formData = $(@).serializeArray()
+    rawFormData = $(@).serializeArray()
     url = $(@).attr 'action'
     data = {}
-    $.each formData, (i, item) ->
+    $.each rawFormData, (i, item) ->
       data[item['name']] = item['value']
-    $.post url, data, ->
-      window.location = '/'
-    $('.create-todo').addClass 'hidden'
-    $('input.text-input').val('').blur()
+    $.post url, data, (createdRecord) ->
+      $('.create-todo').addClass('hidden').detach().prependTo('body')
+      $('input.text-input').val('').blur()
+      dateCreated = new Date(createdRecord.date_created).toDateString()
+      createdRecord.date_created = dateCreated
+      $('#todo-tmpl').tmpl(createdRecord).insertBefore '.selected'
+      moveSelection 'prev'
     return false
+
   $('.cancel-btn').click ->
     $('.create-todo').addClass 'hidden'
     $('input.text-input').val('').blur()

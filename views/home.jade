@@ -1,4 +1,12 @@
 h1= title
+script#todo-tmpl(type='text/x-jquery-tmpl')
+  | <div id="${_id}" class="todo done-${done}">
+  |   <div class="title">${title}</div>
+  |   <div class="notes">${notes}</div>
+  |   <div class="date_created">
+  |     <div>${date_created}</div>
+  |   </div>
+  | </div>
 include create-todo
 .todos
   each todo in todos

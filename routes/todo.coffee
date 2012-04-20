@@ -1,12 +1,14 @@
 mongoose = require('mongoose')
 querystring = require('querystring')
 
-exports.get = (req, res) ->
-  res.send(mongoose.model('Todo').getLatestTodos())
+module.exports = (app) ->
+  console.log 'in todo routes'
+  app.get '/todo', (req, res) ->
+    res.send(mongoose.model('Todo').getLatestTodos())
 
-exports.post = (req, res) ->
-  Todo = mongoose.model('Todo')
-  console.log req.body
-  todo = new Todo(req.body)
-  todo.save()
-  res.send success: true
+  app.post '/todo', (req, res) ->
+    Todo = mongoose.model('Todo')
+    console.log req.body
+    todo = new Todo(req.body)
+    todo.save()
+    res.send todo

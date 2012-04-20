@@ -8,5 +8,4 @@ module.exports = (app) ->
       title: 'Todo'
       todos: todos
 
-  app.get '/todo', todo.get
-  app.post '/todo', todo.post
+  todo app

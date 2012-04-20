@@ -1,6 +1,5 @@
-- var doneStatus = todo.done ? 'done' : 'not-done'
-div(id=todo._id.toHexString(), class='todo ' + doneStatus)
+div(id=todo._id.toHexString(), class='todo done-' + todo.done)
   .title= todo.title
   .notes= todo.notes
-  div.create_date
+  div.date_created
     div= todo.date_created.toDateString()
