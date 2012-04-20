@@ -1,5 +1,5 @@
-mongoose = require('mongoose')
-todo = require('./todo')
+mongoose = require 'mongoose'
+todo = require './todo'
 
 module.exports = (app) ->
   app.get '/', (req, res) ->

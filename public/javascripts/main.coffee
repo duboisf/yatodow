@@ -3,7 +3,9 @@ main = ->
     .filter ->
       $.trim($(@).text()) is ''
     .remove()
-  $('.todos > .todo').first().addClass 'selected'
+  $('.todos > .todo')
+    .first()
+    .addClass('selected')
   setupBindings()
   setupEvents()
   $('label').inFieldLabels();
@@ -24,8 +26,10 @@ setupBindings = ->
     moveSelection 'prev'
   $(document).bind 'keydown', 'c', (evt) ->
     evt.preventDefault()
-    $('.create-todo').detach().insertBefore '.selected'
-    $('.create-todo').removeClass 'hidden'
+    $('.create-todo')
+      .detach()
+      .insertBefore('.selected')
+    $('.create-todo').removeClass('hidden')
     $('#title').focus()
 
 setupEvents = ->
@@ -35,17 +39,29 @@ setupEvents = ->
     data = {}
     $.each rawFormData, (i, item) ->
       data[item['name']] = item['value']
-    $.post url, data, (createdRecord) ->
-      $('.create-todo').addClass('hidden').detach().prependTo('body')
-      $('input.text-input').val('').blur()
+    promise = $.post url, data
+    promise.success (createdRecord) ->
+      $('.create-todo')
+        .addClass('hidden')
+        .detach()
+        .prependTo('body')
+      $('input.text-input')
+        .val('')
+        .blur()
       dateCreated = new Date(createdRecord.date_created).toDateString()
       createdRecord.date_created = dateCreated
-      $('#todo-tmpl').tmpl(createdRecord).insertBefore '.selected'
+      $('#todo-tmpl')
+        .tmpl(createdRecord)
+        .insertBefore('.selected')
       moveSelection 'prev'
+    promise.error (jqXHR, textStatus, errorThrown) ->
+      console.log 'error'
     return false
 
   $('.cancel-btn').click ->
-    $('.create-todo').addClass 'hidden'
-    $('input.text-input').val('').blur()
+    $('.create-todo').addClass('hidden')
+    $('input.text-input')
+      .val('')
+      .blur()
 
 $(document).ready -> main()
