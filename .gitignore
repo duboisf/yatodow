@@ -3,3 +3,5 @@ node_modules
 *.css
 public/javascripts/*.js
 routes/*.js
+app.js
+models/*.js
