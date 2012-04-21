@@ -1,9 +1,9 @@
-express = require('express')
-routes = require('./routes')
-mongoose = require('mongoose')
-stylus = require('stylus');
+express = require 'express'
+routes = require './routes'
+mongoose = require 'mongoose'
+stylus = require 'stylus'
 
-require('express-mongoose');
+require 'express-mongoose'
 
 mongoose.connect 'mongodb://localhost/yatodow'
 
@@ -16,10 +16,9 @@ app = module.exports = express.createServer()
 app.configure ->
   app.set 'views', __dirname + '/views'
   app.set 'view engine', 'jade'
-  app.use(stylus.middleware
+  app.use stylus.middleware
     src: __dirname + '/public'
     compress: true
-  )
   app.use express.bodyParser()
   app.use express.methodOverride()
   app.use express.cookieParser()
@@ -28,10 +27,9 @@ app.configure ->
   app.use express.static(__dirname + '/public')
 
 app.configure 'development', ->
-  app.use(express.errorHandler
+  app.use express.errorHandler
     dumpExceptions: true
     showStack: true
-  )
 
 app.configure 'production', ->
   app.use express.errorHandler()
@@ -40,6 +38,6 @@ app.configure 'production', ->
 routes app
 
 app.listen 3000, ->
-  console.log "Express server listening on port %d in %s mode", app.address().port, app.settings.env
-
-
+  console.log "Express server listening on port %d in %s mode",
+    app.address().port,
+    app.settings.env
