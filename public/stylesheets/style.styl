@@ -1,74 +1,63 @@
 border-radius()
-  -webkit-border-radius: arguments
-  -moz-border-radius: arguments
-  border-radius: arguments
+  -webkit-border-radius arguments
+  -moz-border-radius arguments
+  border-radius arguments
 
 body
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
+  font 14px "Lucida Grande", Helvetica, Arial, sans-serif
 
 a
-  color: #00B7FF
+  color #00B7FF
 
-.todo {
-  position: relative;
+.todo
+  position relative
   border-radius(7px)
-  margin: 4px 0px
-  border: solid black 2px
-  div {
-    padding: 2px
-  }
-  .title {
-    font-size: x-large  
-  }
-  .date_created {
-    position: absolute
-    right: 0px
-    top: 0px  
-    border-left: solid black 2px
-    border-bottom: solid black 2px
-  }
-}
+  margin 4px 0px
+  border solid black 2px
+  div
+    padding 2px
+  .title
+    font-size x-large  
+  .date_created
+    position absolute
+    right 0px
+    top 0px  
+    border-left solid black 2px
+    border-bottom solid black 2px
 
 .todo.done-true
-  background: rgba(0, 255, 0, 0.3)
-  text-decoration: line-through
+  background rgba(0, 255, 0, 0.3)
+  text-decoration line-through
 
 .todo.done-false
-  background: rgba(255, 0, 0, 0.3)
+  background rgba(255, 0, 0, 0.3)
 
 .todo.selected
-  background: rgba(0, 255, 255, 0.3)
+  background rgba(0, 255, 255, 0.3)
 
 .hidden
-  display: none
+  display none
 
-.create-todo {
-  p {
-    margin: 0px
-    position: relative
-  }
-  label {
-    position: absolute
-  }
-  label {
-    z-index: 100
-    top: 6px
-    left: 7px
-  }
-  .create-btn {
-    border: 2px solid green
-    color: white
-    background-image: url(/images/button_bg_green.gif)
-    border-color: #4BA47C
-    border-top-color: #53B388
-    border-bottom-color: #459671
+.create-todo
+  p
+    margin 0px
+    position relative
+  label
+    position absolute
+  label
+    z-index 100
+    top 6px
+    left 7px
+  .create-btn
+    border 2px solid green
+    color white
+    background-color #00AA00
+    border-color #4BA47C
+    border-top-color #53B388
+    border-bottom-color #459671
     border-radius(5px)
-  }
-  .cancel-btn-prefix {
-    margin-left: 5px
-  }
-  .cancel-btn {
-    color: red
-    cursor: pointer
-  }
-}
+  .cancel-btn-prefix
+    margin-left 5px
+  .cancel-btn
+    color red
+    cursor pointer
