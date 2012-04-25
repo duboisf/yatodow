@@ -15,6 +15,8 @@ Todo = module.exports = new Schema
     default: Date.now
   date_modified: 
     type: Date
+  order:
+    type: Number
 
 Todo.pre 'save', (next) ->
   console.log 'Todo: saving...'

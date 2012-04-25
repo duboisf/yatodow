@@ -24,13 +24,37 @@ setupBindings = ->
     moveSelection 'next'
   $(document).bind 'keydown', 'k', ->
     moveSelection 'prev'
+  $(document).bind 'keydown', 't', ->
+    currentId = $('.selected').attr('id')
+    promise = $.post '/todo/toggle', id: currentId
+    promise.success (updatedTodoDoc) ->
+      $('.selected')
+        .removeClass('done-true done-false')
+        .addClass('done-' + updatedTodoDoc.done)
+    promise.error (jqXHR, textStatus, errorThrown) ->
+      console.dir errorThrown
+      console.dir textStatus
+      console.dir jqXHR
+      console.log 'error toggling todo state'
   $(document).bind 'keydown', 'c', (evt) ->
     evt.preventDefault()
-    $('.create-todo')
-      .detach()
-      .insertBefore('.selected')
-    $('.create-todo').removeClass('hidden')
+    createForm = $('.create-todo')
+    selected = $('.selected')
+    if selected.length
+      $(createForm)
+        .detach()
+        .insertBefore(selected)
+    $(createForm).removeClass('hidden')
     $('#title').focus()
+
+resetForm = ->
+  $('.create-todo')
+    .addClass('hidden')
+    .detach()
+    .prependTo('body')
+  $('input.text-input')
+    .val('')
+    .blur()
 
 setupEvents = ->
   $('.create-todo > form').submit ->
@@ -41,19 +65,18 @@ setupEvents = ->
       data[item['name']] = item['value']
     promise = $.post url, data
     promise.success (createdRecord) ->
-      $('.create-todo')
-        .addClass('hidden')
-        .detach()
-        .prependTo('body')
-      $('input.text-input')
-        .val('')
-        .blur()
+      resetForm()
       dateCreated = new Date(createdRecord.date_created).toDateString()
       createdRecord.date_created = dateCreated
-      $('#todo-tmpl')
-        .tmpl(createdRecord)
-        .insertBefore('.selected')
-      moveSelection 'prev'
+      selected = $('.selected')
+      newTodo = $('#todo-tmpl').tmpl(createdRecord)
+      if selected.length
+        $(newTodo).insertBefore('.selected')
+        moveSelection 'prev'
+      else
+        $(newTodo)
+          .addClass('selected')
+          .appendTo('.todos')
     promise.error (jqXHR, textStatus, errorThrown) ->
       console.log 'error'
     return false
