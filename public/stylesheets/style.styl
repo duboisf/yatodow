@@ -25,15 +25,26 @@ a
     border-left solid black 2px
     border-bottom solid black 2px
 
+.todo
+  width 100%
+
+.todo-row
+  position relative
+  .arrow
+    position absolute
+    left -6px
+    top 2px
+    width: 4px
+
+.todo-row.selected > .arrow
+  background blue
+
 .todo.done-true
   background rgba(0, 255, 0, 0.3)
   text-decoration line-through
 
 .todo.done-false
   background rgba(255, 0, 0, 0.3)
-
-.todo.selected
-  background rgba(0, 255, 255, 0.3)
 
 .hidden
   display none

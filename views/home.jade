@@ -1,10 +1,18 @@
 h1= title
+p Some shortcuts
+ul
+  li j/k: next/previous (vim FTW)
+  li c: create a new todo
+  li t: toggle todo completion state
 script#todo-tmpl(type='text/x-jquery-tmpl')
-  | <div id="${_id}" class="todo done-${done}">
-  |   <div class="title">${title}</div>
-  |   <div class="notes">${notes}</div>
-  |   <div class="date_created">
-  |     <div>${date_created}</div>
+  | <div class="todo-row">
+  |   <div class="arrow">&nbsp;</div>
+  |   <div id="${_id}" class="todo done-${done}">
+  |     <div class="title">${title}</div>
+  |     <div class="notes">${notes}</div>
+  |     <div class="date_created">
+  |       <div>${date_created}</div>
+  |     </div>
   |   </div>
   | </div>
 include create-todo

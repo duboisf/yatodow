@@ -1,5 +1,8 @@
-div(id=todo._id.toHexString(), class='todo done-' + todo.done)
-  .title= todo.title
-  .notes= todo.notes
-  div.date_created
-    div= todo.date_created.toDateString()
+.todo-row
+  .arrow
+    | &nbsp;
+  div(id=todo._id.toHexString(), class='todo done-' + todo.done)
+    .title= todo.title
+    .notes= todo.notes
+    .date_created
+      div= todo.date_created.toDateString()
