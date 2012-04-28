@@ -40,7 +40,7 @@ showCreateTodoForm = (evt) ->
   $(createForm).slideDown('fast')
   $('#title').focus()
 
-hideCreateTodoForm = ->
+hideCreateTodoForm = (afterSlideUpCallback) ->
   createForm = $('.create-todo')
   lastSelectionId = $(createForm).data('lastSelectionId')
   $('#' + lastSelectionId)
@@ -51,9 +51,25 @@ hideCreateTodoForm = ->
     $(@)
       .detach()
       .prependTo('body')
+    if $.isFunction afterSlideUpCallback
+      afterSlideUpCallback()
   $('input.text-input')
     .val('')
     .blur()
+
+displayCreatedTodo = (createdRecord) ->
+  dateCreated = new Date(createdRecord.date_created).toDateString()
+  createdRecord.date_created = dateCreated
+  selected = $('.selected')
+  newTodo = $('#todo-tmpl').tmpl(createdRecord)
+  if selected.length
+    $(newTodo).insertBefore('.selected')
+    moveSelection 'prev'
+  else
+    $(newTodo)
+      .addClass('selected')
+      .appendTo('.todos')
+  $(newTodo).hide().slideDown('fast')
 
 createTodo = ->
   rawFormData = $(@).serializeArray()
@@ -62,46 +78,49 @@ createTodo = ->
   $.each rawFormData, (i, item) ->
     data[item['name']] = item['value']
   promise = $.post url, data
-  promise.success (createdRecord) ->
-    hideCreateTodoForm()
-    dateCreated = new Date(createdRecord.date_created).toDateString()
-    createdRecord.date_created = dateCreated
-    selected = $('.selected')
-    newTodo = $('#todo-tmpl').tmpl(createdRecord)
-    if selected.length
-      $(newTodo).insertBefore('.selected')
-      moveSelection 'prev'
-    else
-      $(newTodo)
-        .addClass('selected')
-        .appendTo('.todos')
-  promise.error (jqXHR, textStatus, errorThrown) ->
-    console.log 'error'
+  promise.done (createdRecord) ->
+    hideCreateTodoForm ->
+      callback = -> displayCreatedTodo(createdRecord)
+      setTimeout callback, 100
+  promise.fail (jqXHR, textStatus, errorThrown) ->
+    console.dir arg for arg in [errorThrown, textStatus, errorThrown]
+    console.log 'error creating todo'
   return false
 
 toggleTodoCompletionState = ->
   currentId = $('.selected > .todo').attr('id')
   promise = $.post '/todo/toggle', id: currentId
-  promise.success (updatedTodoDoc) ->
+  promise.done (updatedTodoDoc) ->
     $('.selected > .todo')
       .removeClass('done-true done-false')
       .addClass('done-' + updatedTodoDoc.done)
-  promise.error (jqXHR, textStatus, errorThrown) ->
-    console.dir errorThrown
-    console.dir textStatus
-    console.dir jqXHR
+  promise.fail (jqXHR, textStatus, errorThrown) ->
+    console.dir arg for arg in [errorThrown, textStatus, errorThrown]
     console.log 'error toggling todo state'
 
+deleteTodo = ->
+  todoIdToDelete = $('.selected > .todo').attr('id')
+  promise = $.ajax
+    url: '/todo'
+    type: 'DELETE'
+    data:
+      id: todoIdToDelete
+  promise.done ->
+    moveSelection if $('.selected').next().length then 'next' else 'prev'
+    $('#' + todoIdToDelete).parent().remove()
+  promise.fail (jqXHR, textStatus, errorThrown) ->
+    console.dir arg for arg in [jqXHR, textStatus, errorThrown]
+    console.log 'error deleting todo with id ' + todoIdToDelete
+
 setupBindings = ->
-  $(document).bind 'keydown', 'j', ->
-    moveSelection 'next'
-  $(document).bind 'keydown', 'k', ->
-    moveSelection 'prev'
+  $(document).bind 'keydown', 'j', -> moveSelection 'next'
+  $(document).bind 'keydown', 'k', -> moveSelection 'prev'
   $(document).bind 'keydown', 't', -> toggleTodoCompletionState()
   $(document).bind 'keydown', 'c', (evt) -> showCreateTodoForm evt
+  $(document).bind 'keydown', 'd', -> deleteTodo()
 
 setupEvents = ->
-  $('.create-todo > form').submit -> createTodo.call @
+  $('.create-todo').submit -> createTodo.call @
   $('.cancel-btn').click -> hideCreateTodoForm()
 
 $(document).ready -> main()

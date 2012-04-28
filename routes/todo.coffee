@@ -1,6 +1,5 @@
 mongoose = require 'mongoose'
 querystring = require 'querystring'
-ObjectId = mongoose.Schema.ObjectId
 
 sendError = (res, msg) ->
   json =
@@ -23,6 +22,17 @@ module.exports = (app) ->
     todo = new Todo req.body
     todo.save ->
       res.send todo
+
+  app.delete '/todo', (req, res) ->
+    Todo = mongoose.model 'Todo'
+    idToDelete = req.body.id
+    console.log 'Removing todo with id: ' + idToDelete
+    Todo.findById idToDelete, (err, todoDocument) ->
+      unless err
+        todoDocument.remove()
+        res.send success: true
+      else
+        sendError res, "Error deleting: can't find todo with id " + idToDelete
 
   app.post '/todo/toggle', (req, res) ->
     Todo = mongoose.model 'Todo'
