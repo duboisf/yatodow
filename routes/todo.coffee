@@ -9,7 +9,12 @@ sendError = (res, msg) ->
 
 module.exports = (app) ->
   app.get '/todo', (req, res) ->
-    res.send(mongoose.model('Todo').getLatestTodos())
+    Todo = mongoose.model 'Todo'
+    Todo.find {}, (err, docs) ->
+      unless err
+        res.send docs.sort('_id', 'descending')
+      else
+        sendError 'Error retrieving todos'
 
   app.post '/todo', (req, res) ->
     Todo = mongoose.model 'Todo'

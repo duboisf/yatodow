@@ -3,9 +3,16 @@ todo = require './todo'
 
 module.exports = (app) ->
   app.get '/', (req, res) ->
-    todos = mongoose.model('Todo').getLatestTodos()
-    res.render 'home',
-      title: 'Todo'
-      todos: todos
+    mongoose.model('Todo').find {}, (err, docs) ->
+      unless err
+        todos = docs.sort '_id', 'descending'
+        res.render 'home',
+          title: 'Todo'
+          todos: todos
+      else
+        json =
+          success: no
+          message: 'Error retrieving todos'
+        res.send json
 
   todo app
