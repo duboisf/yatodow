@@ -21,6 +21,15 @@ moveSelection = (dir) ->
       .removeClass('selected')[dir]()
       .addClass('selected')
   adjustSelectionHeight()
+  selected = $('.todo-row.selected')[0]
+  if not elementInViewport selected
+    top = 
+      if dir is 'next'
+        selected.offsetTop - selected.offsetHeight * 2
+      else
+        prevPageTop = window.pageYOffset - window.innerHeight
+        prevPageTop + selected.offsetHeight * 2
+    $('body').stop().animate(scrollTop: top, 1500, 'easeOutQuint')
 
 adjustSelectionHeight = ->
   rowHeight = $('.selected').height()
@@ -47,7 +56,6 @@ hideCreateTodoForm = (afterSlideUpCallback) ->
     .parent()
     .addClass('selected')
   $(createForm).slideUp 'fast', ->
-    console.log 'hidden'
     $(@)
       .detach()
       .prependTo('body')
@@ -111,6 +119,12 @@ deleteTodo = ->
   promise.fail (jqXHR, textStatus, errorThrown) ->
     console.dir arg for arg in [jqXHR, textStatus, errorThrown]
     console.log 'error deleting todo with id ' + todoIdToDelete
+
+elementInViewport = (el) ->
+    rec = el.getBoundingClientRect()
+    result = rec.top >= 0 and rec.left >= 0
+    result &&= rec.bottom <= window.innerHeight
+    result and rec.right <= window.innerWidth
 
 setupBindings = ->
   $(document).bind 'keydown', 'j', -> moveSelection 'next'
