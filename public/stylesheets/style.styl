@@ -9,10 +9,23 @@ body
 a
   color #00B7FF
 
+.todos
+  margin-left 10px
+  margin-right 10px
+
+.todo-row
+  position relative
+  width 100%
+  border solid 3px transparent
+  .arrow
+    position absolute
+    left -10px
+    top 2px
+    width: 6px
+
 .todo
   position relative
   border-radius(7px)
-  margin 4px 0px
   border solid black 2px
   div
     padding 2px
@@ -27,15 +40,6 @@ a
 
 .todo
   width 100%
-
-.todo-row
-  position relative
-  width 100%
-  .arrow
-    position absolute
-    left -6px
-    top 2px
-    width: 4px
 
 .todo-row.selected > .arrow
   background blue
@@ -56,7 +60,6 @@ a
     position relative
   label
     position absolute
-  label
     z-index 100
     top 6px
     left 7px

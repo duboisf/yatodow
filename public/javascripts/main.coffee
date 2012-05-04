@@ -45,7 +45,6 @@ showCreateTodoForm = (evt) ->
       .insertBefore(selected)
   lastSelectionId = $('.selected > .todo').attr('id')
   $(createForm).data('lastSelectionId', lastSelectionId)
-  $(selected).removeClass('selected')
   $(createForm).slideDown('fast')
   $('#title').focus()
 
@@ -136,5 +135,9 @@ setupBindings = ->
 setupEvents = ->
   $('.create-todo').submit -> createTodo.call @
   $('.cancel-btn').click -> hideCreateTodoForm()
+  $('.todo').click (evt) ->
+    $('.selected').removeClass('selected')
+    $(@).parent().addClass('selected')
+    adjustSelectionHeight()
 
 $(document).ready -> main()
