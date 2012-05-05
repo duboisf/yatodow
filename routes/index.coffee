@@ -7,7 +7,7 @@ module.exports = (app) ->
       unless err
         todos = docs.sort '_id', 'descending'
         res.render 'home',
-          title: 'Todo'
+          title: 'Yatodow'
           todos: todos
       else
         json =
