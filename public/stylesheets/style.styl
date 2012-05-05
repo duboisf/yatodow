@@ -24,6 +24,7 @@ a
     width: 6px
 
 .todo
+  cursor pointer
   position relative
   border-radius(7px)
   border solid black 2px
@@ -55,24 +56,25 @@ a
   display none
 
 .create-todo
-  p
-    margin 0px
-    position relative
-  label
-    position absolute
-    z-index 100
-    top 6px
-    left 7px
-  .create-btn
-    border 2px solid green
-    color white
-    background-color #00AA00
-    border-color #4BA47C
-    border-top-color #53B388
-    border-bottom-color #459671
-    border-radius(5px)
-  .cancel-btn-prefix
-    margin-left 5px
-  .cancel-btn
-    color red
-    cursor pointer
+  form
+    p
+      margin 0px
+      position relative
+    label
+      position absolute
+      z-index 100
+      top 6px
+      left 7px
+    .create-btn
+      border 2px solid green
+      color white
+      background-color #00AA00
+      border-color #4BA47C
+      border-top-color #53B388
+      border-bottom-color #459671
+      border-radius(5px)
+    .cancel-btn-prefix
+      margin-left 5px
+    .cancel-btn
+      color red
+      cursor pointer

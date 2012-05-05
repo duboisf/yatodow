@@ -37,16 +37,23 @@ adjustSelectionHeight = ->
 
 showCreateTodoForm = (evt) ->
   evt.preventDefault()
-  createForm = $('.create-todo')
+  formHeight = $('.create-todo').height()
+  form = $('.create-todo > form').hide().detach()
+  formContainer = $('.create-todo').detach()
+  $(formContainer).height(formHeight)
   selected = $('.selected')
   if selected.length
-    $(createForm)
-      .detach()
-      .insertBefore(selected)
+     $(formContainer).insertBefore(selected)
+  else
+    $(form).appendTo('.todos')
   lastSelectionId = $('.selected > .todo').attr('id')
-  $(createForm).data('lastSelectionId', lastSelectionId)
-  $(createForm).slideDown('fast')
-  $('#title').focus()
+  $(formContainer)
+    .slideDown 400, ->
+      $(form)
+        .data('lastSelectionId', lastSelectionId)
+        .appendTo(formContainer)
+        .fadeIn 400, ->
+          $('#title').focus()
 
 hideCreateTodoForm = (afterSlideUpCallback) ->
   createForm = $('.create-todo')
@@ -133,7 +140,7 @@ setupBindings = ->
   $(document).bind 'keydown', 'd', -> deleteTodo()
 
 setupEvents = ->
-  $('.create-todo').submit -> createTodo.call @
+  $('.create-todo > form').submit -> createTodo.call @
   $('.cancel-btn').click -> hideCreateTodoForm()
   $('.todo').click (evt) ->
     $('.selected').removeClass('selected')

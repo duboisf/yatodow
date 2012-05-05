@@ -1,14 +1,15 @@
-form.create-todo(action='todo', method='POST', name='todo')
-  p
-    input#title.text-input(type='text', name='title')
-    label(for='title')
-      | Todo title
-  p
-    input#notes.text-input(type='text', name='notes')
-    label(for='notes')
-      | Usefull notes, or not
-  input.create-btn(type='submit', value="Create")
-  span.cancel-btn-prefix
-    | or
-  span.cancel-btn
-    | cancel
+.create-todo
+  form(action='todo', method='POST', name='todo')
+    p
+      input#title.text-input(type='text', name='title')
+      label(for='title')
+        | Todo title
+    p
+      input#notes.text-input(type='text', name='notes')
+      label(for='notes')
+        | Usefull notes, or not
+    input.create-btn(type='submit', value="Create")
+    span.cancel-btn-prefix
+      | or
+    span.cancel-btn
+      | cancel
