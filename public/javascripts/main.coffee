@@ -75,15 +75,18 @@ showCreatedTodo = (createdRecord) ->
   dateCreated = new Date(createdRecord.date_created).toDateString()
   createdRecord.date_created = dateCreated
   selected = $('.selected')
-  newTodo = $('#todo-tmpl').tmpl(createdRecord).hide()
+  newTodo = $('#todo-tmpl').tmpl(createdRecord)
+  movePrev = false
   if selected.length
     $(newTodo).insertBefore('.selected')
-    moveSelection 'prev'
+    movePrev = true
   else
-    $(newTodo)
-      .addClass('selected')
-      .appendTo('.todos')
-  $(newTodo).hide().slideDown('fast')
+    $(newTodo).appendTo('.todos')
+  $(newTodo).hide().slideDown 'fast', ->
+    if movePrev
+      moveSelection 'prev'
+    else
+      $(newTodo).addClass('selected')
 
 createTodo = ->
   rawFormData = $(@).serializeArray()
