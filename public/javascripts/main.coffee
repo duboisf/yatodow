@@ -15,7 +15,7 @@ main = ->
 moveSelection = (dir) ->
   if dir isnt 'next' and dir isnt 'prev'
     throw new Error("dir must either be 'next' or 'prev'")
-  selected = $ '.todo-row.selected'
+  selected = $('.todo-row.selected')
   if $(selected)[dir]().length is 1
     $(selected)
       .removeClass('selected')[dir]()
@@ -71,11 +71,11 @@ hideCreateTodoForm = (afterSlideUpCallback) ->
     .val('')
     .blur()
 
-displayCreatedTodo = (createdRecord) ->
+showCreatedTodo = (createdRecord) ->
   dateCreated = new Date(createdRecord.date_created).toDateString()
   createdRecord.date_created = dateCreated
   selected = $('.selected')
-  newTodo = $('#todo-tmpl').tmpl(createdRecord)
+  newTodo = $('#todo-tmpl').tmpl(createdRecord).hide()
   if selected.length
     $(newTodo).insertBefore('.selected')
     moveSelection 'prev'
@@ -94,7 +94,7 @@ createTodo = ->
   promise = $.post url, data
   promise.done (createdRecord) ->
     hideCreateTodoForm ->
-      callback = -> displayCreatedTodo(createdRecord)
+      callback = -> showCreatedTodo(createdRecord)
       setTimeout callback, 100
   promise.fail (jqXHR, textStatus, errorThrown) ->
     console.dir arg for arg in [errorThrown, textStatus, errorThrown]
@@ -121,7 +121,14 @@ deleteTodo = ->
       id: todoIdToDelete
   promise.done ->
     moveSelection if $('.selected').next().length then 'next' else 'prev'
-    $('#' + todoIdToDelete).parent().remove()
+    $('#' + todoIdToDelete)
+      .parent()
+      .fadeOut 'normal', ->
+        $(@)
+          .css('display', 'block')
+          .css('visibility', 'hidden')
+        $(@).slideUp 'normal', ->
+          $(@).remove()
   promise.fail (jqXHR, textStatus, errorThrown) ->
     console.dir arg for arg in [jqXHR, textStatus, errorThrown]
     console.log 'error deleting todo with id ' + todoIdToDelete
